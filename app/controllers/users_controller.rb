@@ -1,5 +1,10 @@
-
 class UsersController < ApplicationController
+  
+  # ログインしていない人のアクセス制限をかける
+  # deviseを使うと、導入できるヘルパーauthenticate_user!
+  # authenticate_user!とかくと、ログインしていない人は全てのアクションにアクセスできない
+  # ただしindexアクション飲みはアクセスできる
+  before_action :authenticate_user!, expect: [:index]
   # ユーザーの一覧を表示する
   def index
     # userモデルから全てのデータをとってくる
@@ -17,6 +22,11 @@ class UsersController < ApplicationController
   # 編集画面を作成
   def edit
     @user = User.find(params[:id]) 
+    #  recipeに紐づいているユーザーとログインしているユーザーが等しくなかったら、
+    if @recipe.user != current_user
+      # レシピの一覧画面に遷移するようにする。警告文も流れるようにする。
+      redirect_to recipes_path, alert: '不正なアクセスです'
+    end
   end
 
   # ユーザーの情報を更新するアクションを作成
@@ -24,9 +34,12 @@ class UsersController < ApplicationController
     # １人の情報だけをparams[:id]から持ってくる
     @user = User.find(params[:id])
     # userをuser_paramsでアップデートする user_paramsを下で定義
-    @user.update(user_params)
+    if @user.update(user_params)
     # 更新できたら、ユーザーの詳細画面に移動する
-    redirect_to user_path(@user)
+      redirect_to user_path(@user), notice: '更新に成功しました'
+    else
+      render :edit 
+    end
   end
 
   # UserControllerの中でしか定義しない

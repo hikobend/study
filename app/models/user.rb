@@ -6,4 +6,6 @@ class User < ApplicationRecord
   attachment :profile_image
   # recipesをたくさん持っている。ユーザーが削除された場合、それに関連しているrecipesも消去する
   has_many :recipes, dependent: :destroy
+  # usernameに空白をvalidateする
+  validates :username, presence: true
 end

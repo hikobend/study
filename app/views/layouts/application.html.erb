@@ -39,12 +39,21 @@
       <% if user_signed_in? %>
         <div id="navbarExampleTransparentExample" class="navbar-menu">
           <div class="navbar-item">
+          <%# レシピの一覧 一覧画面のためresipes_path 複数形になる%>
+          <%= link_to "レシピ一覧", recipes_path, class: "navbar-item button is-warning is-light" %>
+          </div>
+          <div class="navbar-item">
+          <%# 新規投稿 %>
+          <%= link_to "新規投稿", new_recipe_path, class: "navbar-item button is-warning is-light" %>
           </div>
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="field is-grouped">
                 <p class="control">
                   <%= link_to "レシピグラマー一覧", users_path, class: "button is-warning is-light" %>
+                </p>
+                <p class="control">
+                  <%= link_to "マイページ", user_path(current_user), class: "button is-warning is-light" %>
                 </p>
                 <p class="control">
                   <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "button is-warning is-light" %>
@@ -55,12 +64,16 @@
         </div>
       <% else %>
         <div id="navbarExampleTransparentExample" class="navbar-menu">
+          <div class="navbar-item">
+          <%# レシピの一覧 一覧画面のためresipes_path 複数形になる%>
+          <%= link_to "レシピ一覧", recipes_path, class: "navbar-item button is-warning is-light" %>
+          </div>
+          <div class="control">
+            <%= link_to "レシピグラマー一覧", users_path, class: "navbar-item button is-warning is-light" %>
+          </div>    
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="field is-grouped">
-                <p class="control">
-                  <%= link_to "レシピグラマー一覧", users_path, class: "button is-warning is-light" %>
-                </p>
                 <p class="control">
                   <%= link_to "ログイン", new_user_session_path, class: "button is-warning is-light" %>
                 </p>

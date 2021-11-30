@@ -8,6 +8,20 @@
   </div>
 </section>
 
+<%# 今回判定するのは@userの中なので、@userとする %>
+<% if @user.errors.any? %>
+  <div class="notification is-danger">
+  <%# pluralizeは2以上を複数形に変える %>
+    <h2><%= pluralize(@recipe.errors.count, "error") %>prohibited this object from being saved: not successfully </h2>
+    <%# エラーの内容を記述する。@recipeのエラー文をeach文で回す。eachでそれぞれ取り出し、表示する。%>
+      <ul>
+      <% @recipe.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
